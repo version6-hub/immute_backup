@@ -25,7 +25,7 @@ export const IMMUTE_ABI = [
 ] as const;
 
 export const CONTRACT_ADDRESSES: Record<number, `0x${string}`> = {
-  1: "0x0000000000000000000000000000000000000000",       // Mainnet — fill after audit + deploy
+  1: "0xAcf3E835bB45B51e4290E58A4cA6669aE51Ff2f2",       // Mainnet v4.0 — deployed 2026-04-19
   11155111: "0x699Fb4D9E3804cAeDde0a76fb9cd3c53B26266C7", // Sepolia v4.0
 };
 
