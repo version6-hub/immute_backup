@@ -1,6 +1,6 @@
 /**
  * Top-of-page banner. Tells visitors what this is — a static fallback for
- * immute.finance — and asks them to bookmark it so they can find it when
+ * immute.io — and asks them to bookmark it so they can find it when
  * the main site is unreachable.
  */
 export function BookmarkBanner() {
@@ -13,12 +13,12 @@ export function BookmarkBanner() {
           </span>{" "}
           Static GitHub Pages mirror. Use this when{" "}
           <a
-            href="https://immute.finance"
+            href="https://immute.io"
             target="_blank"
             rel="noopener noreferrer"
             className="underline decoration-emerald-accent/40 underline-offset-2 hover:text-emerald-accent"
           >
-            immute.finance
+            immute.io
           </a>{" "}
           is unreachable.
         </div>

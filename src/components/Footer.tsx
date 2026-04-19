@@ -12,12 +12,12 @@ export function Footer() {
           <p className="leading-relaxed">
             Static fallback for{" "}
             <a
-              href="https://immute.finance"
+              href="https://immute.io"
               target="_blank"
               rel="noopener noreferrer"
               className="text-emerald-accent hover:underline"
             >
-              immute.finance
+              immute.io
             </a>
             . Hosted on GitHub Pages — no server, no API. All reads and
             writes go directly between your wallet and the on-chain contract.
@@ -43,7 +43,7 @@ export function Footer() {
           <ul className="space-y-1">
             <li>
               <a
-                href="https://immute.finance/whitepaper"
+                href="https://immute.io/whitepaper"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-emerald-accent transition-colors"
@@ -53,7 +53,7 @@ export function Footer() {
             </li>
             <li>
               <a
-                href="https://immute.finance/audit"
+                href="https://immute.io/audit"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-emerald-accent transition-colors"
@@ -63,7 +63,7 @@ export function Footer() {
             </li>
             <li>
               <a
-                href="https://immute.finance/metamask-guide"
+                href="https://immute.io/metamask-guide"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-emerald-accent transition-colors"

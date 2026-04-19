@@ -1,6 +1,6 @@
 # Immute · Backup Interface
 
-Static fallback for [immute.finance](https://immute.finance). Single page,
+Static fallback for [immute.io](https://immute.io). Single page,
 zero server, hosted on GitHub Pages. If the main site is down (DDoS, host
 outage, DNS), holders can come here and still operate the contract directly
 through their wallet.
@@ -61,16 +61,18 @@ deploys on every push to `main`.
 
 **One-time setup:**
 
-1. In the repo: **Settings → Pages → Source: GitHub Actions**.
-2. Add the following repo secrets at **Settings → Secrets and variables →
+1. Push this folder to a GitHub repo named **`immute_backup`** (the workflow
+   defaults to `BASE_PATH=/immute_backup/` to match).
+2. In the repo: **Settings → Pages → Source: GitHub Actions**.
+3. Add the following repo secrets at **Settings → Secrets and variables →
    Actions** (all optional, but the WalletConnect one is recommended so
    wallet connections work for all users):
    - `VITE_WALLETCONNECT_PROJECT_ID` — public projectId from
      https://cloud.walletconnect.com/
    - `VITE_MAINNET_RPC_URL` — Alchemy/Infura URL (optional)
    - `VITE_SEPOLIA_RPC_URL` — Alchemy/Infura URL (optional)
-3. Push to `main`. The workflow builds and the site goes live at
-   `https://version6-hub.github.io/immute_backup/`.
+4. Push to `main`. The workflow builds and the site goes live at
+   `https://<your-username>.github.io/immute_backup/`.
 
 **With a custom domain (e.g. `backup.immute.io`):**
 
@@ -103,4 +105,4 @@ contract deploy:
 | ETH→USD conversion | Depends on third-party price API |
 | Whitepaper / Audit / Buy-Crypto pages | Static content lives on the main site; this is a fallback for *trading* only |
 
-If immute.finance is up, use that. This page is the lifeboat.
+If immute.io is up, use that. This page is the lifeboat.

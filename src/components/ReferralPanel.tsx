@@ -25,7 +25,7 @@ export function ReferralPanel() {
   // Always link back to the production site for referrals — that's the
   // canonical origin holders should send people to. The backup is just here
   // for the moments when production isn't reachable.
-  const referralUrl = `https://immute.finance/?ref=${walletAddress}`;
+  const referralUrl = `https://immute.io/?ref=${walletAddress}`;
   const isEligible = tokenBalance !== undefined && tokenBalance > 0n;
 
   const copy = async () => {
