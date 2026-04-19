@@ -1,0 +1,32 @@
+{
+  "name": "immute-backup",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Static fallback for immute.finance — single-page IMT trading interface that runs entirely client-side from GitHub Pages, so the contract stays usable even if the main site is down (DDoS, host outage, etc.).",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "deploy": "echo 'Push to GitHub — the deploy.yml workflow handles publishing to gh-pages.'"
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.1",
+    "@tanstack/react-query": "^5.62.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sonner": "^1.7.1",
+    "viem": "^2.21.0",
+    "wagmi": "^2.14.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
+  }
+}

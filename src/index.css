@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background: #0b0d12;
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-obsidian text-ink font-sans antialiased;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-obsidian-surface border border-obsidian-line rounded-sm;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 bg-emerald-accent
+           text-obsidian font-medium text-sm tracking-tight rounded-sm
+           hover:brightness-110 transition disabled:opacity-40
+           disabled:cursor-not-allowed;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-3 py-1.5 border
+           border-obsidian-line text-ink text-xs font-mono rounded-sm
+           hover:border-emerald-accent/40 hover:text-emerald-accent
+           transition disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-3 py-1.5 text-ink-muted
+           text-xs font-mono rounded-sm hover:text-ink transition;
+  }
+  .input {
+    @apply w-full bg-obsidian border border-obsidian-line rounded-sm px-3 py-2
+           text-ink font-mono text-sm placeholder:text-ink-dim
+           focus:outline-none focus:border-emerald-accent/40;
+  }
+  .stat-label {
+    @apply text-[10px] uppercase tracking-[0.18em] text-ink-dim font-mono;
+  }
+  .eyebrow {
+    @apply text-[10px] uppercase tracking-[0.18em] text-emerald-accent
+           font-mono font-medium;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1.5 border border-obsidian-line
+           px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-ink-muted
+           rounded-sm;
+  }
+  .pill-emerald {
+    @apply border-emerald-accent/30 text-emerald-accent bg-emerald-accent/5;
+  }
+}
