@@ -5,6 +5,8 @@ zero server, hosted on GitHub Pages. If the main site is down (DDoS, host
 outage, DNS), holders can come here and still operate the contract directly
 through their wallet.
 
+**Live site:** https://version6-hub.github.io/immute_backup/
+
 **Scope (intentionally minimal):**
 
 - Live contract stats (buy/sell price, total supply, TVL) — auto-refreshed
