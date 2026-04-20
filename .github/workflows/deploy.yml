@@ -22,7 +22,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
       # Regenerates lockfile in CI; trade reproducibility for a smaller repo.
       - run: npm install --no-audit --no-fund
       - name: Build static bundle
