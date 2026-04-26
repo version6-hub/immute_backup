@@ -13,10 +13,19 @@ export const IMMUTE_ABI = [
   { name: "calculateTokensReceived", type: "function", stateMutability: "view", inputs: [{ name: "_ethToSpend", type: "uint256" }], outputs: [{ name: "", type: "uint256" }] },
   { name: "calculateEthReceived", type: "function", stateMutability: "view", inputs: [{ name: "_tokensToSell", type: "uint256" }], outputs: [{ name: "", type: "uint256" }] },
   { name: "stakingRequirement", type: "function", stateMutability: "view", inputs: [], outputs: [{ name: "", type: "uint256" }] },
+  // V8 buy-lock guard (sandwich-attack prevention)
+  { name: "BUY_LOCK_BLOCKS", type: "function", stateMutability: "view", inputs: [], outputs: [{ name: "", type: "uint256" }] },
+  { name: "MIN_BUY", type: "function", stateMutability: "view", inputs: [], outputs: [{ name: "", type: "uint256" }] },
+  { name: "MAX_BUY_PER_TX", type: "function", stateMutability: "view", inputs: [], outputs: [{ name: "", type: "uint256" }] },
+  { name: "lockedUntil", type: "function", stateMutability: "view", inputs: [{ name: "who", type: "address" }], outputs: [{ name: "", type: "uint256" }] },
+  { name: "isLocked", type: "function", stateMutability: "view", inputs: [{ name: "who", type: "address" }], outputs: [{ name: "", type: "bool" }] },
+  // mutating
   { name: "buy", type: "function", stateMutability: "payable", inputs: [{ name: "referredBy", type: "address" }, { name: "minTokensOut", type: "uint256" }], outputs: [{ name: "", type: "uint256" }] },
   { name: "sell", type: "function", stateMutability: "nonpayable", inputs: [{ name: "_amountOfTokens", type: "uint256" }, { name: "_minEthOut", type: "uint256" }], outputs: [] },
   { name: "withdraw", type: "function", stateMutability: "nonpayable", inputs: [], outputs: [] },
+  { name: "withdrawPartial", type: "function", stateMutability: "nonpayable", inputs: [{ name: "_amount", type: "uint256" }], outputs: [] },
   { name: "reinvest", type: "function", stateMutability: "nonpayable", inputs: [{ name: "_minTokensOut", type: "uint256" }], outputs: [] },
+  { name: "reinvestPartial", type: "function", stateMutability: "nonpayable", inputs: [{ name: "_amount", type: "uint256" }, { name: "_minTokensOut", type: "uint256" }], outputs: [] },
   { name: "exit", type: "function", stateMutability: "nonpayable", inputs: [], outputs: [] },
   { name: "transfer", type: "function", stateMutability: "nonpayable", inputs: [{ name: "to", type: "address" }, { name: "amount", type: "uint256" }], outputs: [{ name: "", type: "bool" }] },
   { name: "name", type: "function", stateMutability: "view", inputs: [], outputs: [{ name: "", type: "string" }] },
@@ -25,8 +34,8 @@ export const IMMUTE_ABI = [
 ] as const;
 
 export const CONTRACT_ADDRESSES: Record<number, `0x${string}`> = {
-  1: "0xAcf3E835bB45B51e4290E58A4cA6669aE51Ff2f2",       // Mainnet v4.0 — deployed 2026-04-19
-  11155111: "0x699Fb4D9E3804cAeDde0a76fb9cd3c53B26266C7", // Sepolia v4.0
+  1: "0xAcf3E835bB45B51e4290E58A4cA6669aE51Ff2f2",       // Mainnet V4 — DEPRECATED (drained 2026-04); mainnet relaunch follows Sepolia V8 validation
+  11155111: "0xB575A8760c66F09a26A03bc215D612EA2486373C", // Sepolia V8 — deployed 2026-04-22, BUY_LOCK guard + first-buy re-bootstrap fix (closes F-div-1)
 };
 
 export function getContractAddress(chainId: number): `0x${string}` | undefined {
