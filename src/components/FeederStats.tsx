@@ -15,6 +15,7 @@ export function FeederStats() {
     pendingDividends,
     unclaimedTreasury,
     feederAddress,
+    isLoading,
   } = useFeederStats();
 
   if (!feederAddress) return null;
@@ -38,12 +39,12 @@ export function FeederStats() {
         </div>
         <span
           className={`pill ${live ? "pill-emerald" : ""}`}
-          title="Refreshes every new block + every 12s"
+          title="Refreshes once per minute"
         >
           <span
             className={`inline-block w-1 h-1 rounded-full ${live ? "bg-emerald-accent animate-pulse" : "bg-ink-muted"}`}
           />
-          {live ? "Live · every block" : "Loading…"}
+          {live ? "Updated every 60s" : isLoading ? "Loading..." : "Read unavailable - retrying"}
         </span>
       </div>
 

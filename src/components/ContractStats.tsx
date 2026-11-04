@@ -5,7 +5,7 @@ import { formatEth, formatTokens } from "../lib/formatters";
 
 export function ContractStats() {
   const chainId = useChainId();
-  const { buyPrice, sellPrice, totalSupply, contractBalance, contractAddress } =
+  const { buyPrice, sellPrice, totalSupply, contractBalance, contractAddress, isLoading } =
     useContractStats();
 
   const live =
@@ -25,12 +25,12 @@ export function ContractStats() {
         </div>
         <span
           className={`pill ${live ? "pill-emerald" : ""}`}
-          title="Refreshes every new block + every 6s"
+          title="Refreshes once per minute"
         >
           <span
             className={`inline-block w-1 h-1 rounded-full ${live ? "bg-emerald-accent animate-pulse" : "bg-ink-muted"}`}
           />
-          {live ? "Live · every block" : contractAddress ? "Loading…" : "No contract on this chain"}
+          {live ? "Updated every 60s" : isLoading ? "Loading..." : "Read unavailable - retrying"}
         </span>
       </div>
 

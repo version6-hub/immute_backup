@@ -18,8 +18,8 @@ export function Footer() {
             >
               immute.io
             </a>
-            . Hosted on GitHub Pages — no server, no API. All reads and
-            writes go directly between your wallet and the on-chain contract.
+            . Hosted on GitHub Pages. Read-only data comes from public Ethereum RPC providers;
+            transactions are signed and sent by your wallet to the mainnet contract.
           </p>
         </div>
         <div>

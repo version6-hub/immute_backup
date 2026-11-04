@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import {
   useReadContracts,
-  useBlockNumber,
 } from "wagmi";
 import { FEEDER_ABI, getFeederAddress } from "../lib/feeder";
 
@@ -13,27 +11,19 @@ export function useFeederStats() {
   const chainId = 1 as const;
   const address = getFeederAddress(chainId);
 
-  const { data, isLoading, refetch } = useReadContracts({
+  const { data, isLoading } = useReadContracts({
     contracts: [
-      { address, abi: FEEDER_ABI, functionName: "beneficiary" },
-      { address, abi: FEEDER_ABI, functionName: "buyBps" },
-      { address, abi: FEEDER_ABI, functionName: "buyThreshold" },
-      { address, abi: FEEDER_ABI, functionName: "reinvestThreshold" },
-      { address, abi: FEEDER_ABI, functionName: "accumulatedForBuy" },
-      { address, abi: FEEDER_ABI, functionName: "tokenBalance" },
-      { address, abi: FEEDER_ABI, functionName: "pendingDividends" },
-      { address, abi: FEEDER_ABI, functionName: "unclaimedTreasury" },
+      { chainId: 1, address, abi: FEEDER_ABI, functionName: "beneficiary" },
+      { chainId: 1, address, abi: FEEDER_ABI, functionName: "buyBps" },
+      { chainId: 1, address, abi: FEEDER_ABI, functionName: "buyThreshold" },
+      { chainId: 1, address, abi: FEEDER_ABI, functionName: "reinvestThreshold" },
+      { chainId: 1, address, abi: FEEDER_ABI, functionName: "accumulatedForBuy" },
+      { chainId: 1, address, abi: FEEDER_ABI, functionName: "tokenBalance" },
+      { chainId: 1, address, abi: FEEDER_ABI, functionName: "pendingDividends" },
+      { chainId: 1, address, abi: FEEDER_ABI, functionName: "unclaimedTreasury" },
     ],
-    query: { enabled: !!address, refetchInterval: 60000 },
+    query: { enabled: !!address, refetchInterval: 60000, retry: 0 },
   });
-
-  const { data: blockNumber } = useBlockNumber({
-    watch: false,
-  });
-  useEffect(() => {
-    if (blockNumber !== undefined) refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockNumber]);
 
   return {
     beneficiary: data?.[0]?.result as `0x${string}` | undefined,
