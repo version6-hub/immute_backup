@@ -1,8 +1,7 @@
-import { useChainId } from "wagmi";
 import { explorerAddressUrl, getContractAddress } from "../lib/contract";
 
 export function Footer() {
-  const chainId = useChainId();
+  const chainId = 1 as const;
   const address = getContractAddress(chainId);
   return (
     <footer className="mt-16 border-t border-obsidian-line">
@@ -24,7 +23,7 @@ export function Footer() {
           </p>
         </div>
         <div>
-          <p className="stat-label mb-2">Verified contract</p>
+          <p className="stat-label mb-2">Mainnet contract</p>
           {address ? (
             <a
               href={explorerAddressUrl(chainId, address)}

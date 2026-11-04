@@ -22,16 +22,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      # Regenerates lockfile in CI; trade reproducibility for a smaller repo.
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Build static bundle
         env:
           # Match these to the repo's actual GitHub Pages URL.
           # If publishing under a custom domain (CNAME) set BASE_PATH=/ here.
           BASE_PATH: /immute_backup/
           VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.VITE_WALLETCONNECT_PROJECT_ID }}
-          VITE_MAINNET_RPC_URL: ${{ secrets.VITE_MAINNET_RPC_URL }}
-          VITE_SEPOLIA_RPC_URL: ${{ secrets.VITE_SEPOLIA_RPC_URL }}
         run: npm run build
       - name: Add SPA fallback
         # GH Pages serves 404.html on unknown routes. Mirror index.html so

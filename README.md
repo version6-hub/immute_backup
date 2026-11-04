@@ -1,110 +1,15 @@
-# Immute · Backup Interface
+# Immute mainnet backup interface
 
-Static fallback for [immute.io](https://immute.io). Single page,
-zero server, hosted on GitHub Pages. If the main site is down (DDoS, host
-outage, DNS), holders can come here and still operate the contract directly
-through their wallet.
+This independent static fallback is hosted at https://version6-hub.github.io/immute_backup/ and targets Ethereum mainnet only.
 
-**Live site:** https://version6-hub.github.io/immute_backup/
+Token: `0xDCfDC48c941561d7ec5E819834e6D99A0c838Dd3`. Feeder: `0xAde886EB4673C88976805b0900D7a932E644B117`. ABIs match the frozen November 2026 mainnet release. The BNB legacy site remains separate at https://immute.io/legacy/.
 
-**Scope (intentionally minimal):**
+The backup supports token buys, sells, reward withdrawal/reinvestment and transfers. Writes require the wallet to be on chain 1. Buy/sell/reinvestment requests require a positive minimum-output quote with the displayed 0.5% tolerance. Every transaction still requires the wallet holder's own confirmation. Feeder information is read-only here; Safe governance and automatic operation run independently.
 
-- Live contract stats (buy/sell price, total supply, TVL) — auto-refreshed
-  every block
-- Wallet overview (ETH, IMT, claimable rewards) — auto-refreshed every block
-- Trading actions: **Buy · Sell · Withdraw · Reinvest · Transfer**
-- Referral link with copy + eligibility indicator
+Public Ethereum nodes provide emergency reads without depending on Immute or NepTime servers. Private Alchemy URLs are never embedded. Standard snapshots refresh once per minute; public-node availability can vary. Transaction quotes and wallet confirmations remain separate from those snapshots.
 
-That's it. No charts, no leaderboard, no calculator, no marketing pages.
-All non-essentials live on the main site.
+The client checks its static release metadata and automatically loads newer releases when idle, preserving the URL and deferring while a wallet request, receipt, modal or focused form is active. Tabs from before this updater existed acquire it on their next page load. No web server can inject it into an already running old tab.
 
----
+Build with `npm ci --ignore-scripts` and `npm run build`. The existing Pages workflow deploys the built artifact. Keep package-lock.json committed. VITE_WALLETCONNECT_PROJECT_ID is a public client identifier; do not add RPC secrets to VITE variables.
 
-## Architecture
-
-- **Vite + React + TypeScript + Tailwind** — small bundle, fast load.
-- **wagmi v2 + viem + RainbowKit** — same stack as the main site, so the
-  trading code paths behave identically.
-- **No API routes.** All on-chain reads/writes go directly browser → RPC.
-  This is what lets the site run as pure static files on GitHub Pages.
-- **Block-watch refresh.** `useContractStats` and `useWalletStats` re-read
-  on every new block; reads also poll every 6s as a safety net.
-
----
-
-## Develop locally
-
-```sh
-npm install
-cp .env.example .env  # add your WalletConnect projectId + RPC URLs
-npm run dev           # http://localhost:5173
-```
-
-## Build a production bundle
-
-```sh
-npm run build         # writes ./dist
-npm run preview       # serves ./dist on http://localhost:4173
-```
-
-The `BASE_PATH` env var controls the public path in the build:
-
-```sh
-BASE_PATH=/immute_backup/ npm run build   # GitHub Pages project site
-BASE_PATH=/ npm run build                 # custom domain (CNAME)
-```
-
----
-
-## Deploy to GitHub Pages
-
-The repo ships with `.github/workflows/deploy.yml` which auto-builds and
-deploys on every push to `main`.
-
-**One-time setup:**
-
-1. Push this folder to a GitHub repo named **`immute_backup`** (the workflow
-   defaults to `BASE_PATH=/immute_backup/` to match).
-2. In the repo: **Settings → Pages → Source: GitHub Actions**.
-3. Add the following repo secrets at **Settings → Secrets and variables →
-   Actions** (all optional, but the WalletConnect one is recommended so
-   wallet connections work for all users):
-   - `VITE_WALLETCONNECT_PROJECT_ID` — public projectId from
-     https://cloud.walletconnect.com/
-   - `VITE_MAINNET_RPC_URL` — Alchemy/Infura URL (optional)
-   - `VITE_SEPOLIA_RPC_URL` — Alchemy/Infura URL (optional)
-4. Push to `main`. The workflow builds and the site goes live at
-   `https://<your-username>.github.io/immute_backup/`.
-
-**With a custom domain (e.g. `backup.immute.io`):**
-
-1. Add a `CNAME` file in `public/` containing the domain.
-2. Edit the workflow's `BASE_PATH: /immute_backup/` → `BASE_PATH: /`.
-3. Configure your DNS CNAME and confirm in GitHub Pages settings.
-
----
-
-## Updating after a contract redeploy
-
-The contract address and ABI are baked into `src/lib/contract.ts` so the
-bundle stays self-contained (no runtime config server needed). After a new
-contract deploy:
-
-1. Update `CONTRACT_ADDRESSES[<chainId>]` in `src/lib/contract.ts`.
-2. If the ABI changed, sync `IMMUTE_ABI` from the main site
-   (`immute-web/lib/contract.ts`).
-3. Push to `main`. The workflow rebuilds and redeploys automatically.
-
----
-
-## What's deliberately *not* here
-
-| Feature | Reason it's omitted |
-|---|---|
-| Historical events / leaderboard | Needs Etherscan API key (server-side proxy) |
-| Charts | Same — depends on event scanning |
-| Calculator | Non-critical for emergency operation |
-| ETH→USD conversion | Depends on third-party price API |
-| Whitepaper / Audit / Buy-Crypto pages | Static content lives on the main site; this is a fallback for *trading* only |
-
-If immute.io is up, use that. This page is the lifeboat.
+Review https://immute.io/audit and https://immute.io/risk for the current review and limitations. Reserve-funded redemption does not guarantee recovery of the original investment value. No mainnet money transaction is implied by compiling or publishing this interface.

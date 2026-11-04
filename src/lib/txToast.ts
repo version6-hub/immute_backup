@@ -64,7 +64,7 @@ export function trackTx(
     try {
       const receipt = await waitForTransactionReceipt(wagmiConfig, {
         hash,
-        chainId: chainId as 1 | 11155111,
+        chainId: chainId as 1,
       });
       if (receipt.status === "success") {
         toast.success(successLabel, {

@@ -1,6 +1,7 @@
-import { useChainId, useWriteContract } from "wagmi";
+import { useAccount, useWriteContract } from "wagmi";
 import { IMMUTE_ABI, getContractAddress } from "../lib/contract";
 import { trackTx, toastError } from "../lib/txToast";
+import { assertMainnetRequest } from "../lib/mainnetRequest";
 
 /**
  * Wraps wagmi's writeContractAsync per Immute action with the toast
@@ -17,7 +18,8 @@ function useImmuteTx<TFn extends (...a: never[]) => Promise<`0x${string}`>>(
   ) => TFn,
   labels: { sending: string; success: string }
 ) {
-  const chainId = useChainId();
+  const chainId = 1 as const;
+  const {chainId:walletChainId}=useAccount();
   const address = getContractAddress(chainId);
   const { writeContractAsync, isPending } = useWriteContract();
 
@@ -26,8 +28,10 @@ function useImmuteTx<TFn extends (...a: never[]) => Promise<`0x${string}`>>(
     args: readonly unknown[];
     value?: bigint;
   }) => {
-    if (!address) throw new Error(`Contract not deployed on chain ${chainId}`);
+    if (!address) throw new Error("Mainnet deployment unavailable.");
+    assertMainnetRequest(walletChainId,params.functionName,params.args);
     const hash = await writeContractAsync({
+      chainId:1,
       address,
       abi: IMMUTE_ABI,
       functionName: params.functionName as never,

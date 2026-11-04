@@ -6,6 +6,7 @@ import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { Toaster } from "sonner";
 import { wagmiConfig } from "./lib/wagmiConfig";
 import { App } from "./App";
+import { SiteUpdateGuard } from "./components/SiteUpdateGuard";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./index.css";
 
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             overlayBlur: "small",
           })}
         >
+          <SiteUpdateGuard />
           <App />
           <Toaster
             theme="dark"

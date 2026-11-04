@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import {
   useReadContracts,
-  useChainId,
   useBlockNumber,
-  useAccount,
 } from "wagmi";
 import { FEEDER_ABI, getFeederAddress } from "../lib/feeder";
 
@@ -12,8 +10,7 @@ import { FEEDER_ABI, getFeederAddress } from "../lib/feeder";
 // alone — buyBps, the two thresholds, the accumulator, and V9's
 // unclaimedTreasury. Trading actions remain off-scope here.
 export function useFeederStats() {
-  const chainId = useChainId();
-  const { isConnected } = useAccount();
+  const chainId = 1 as const;
   const address = getFeederAddress(chainId);
 
   const { data, isLoading, refetch } = useReadContracts({
@@ -27,11 +24,11 @@ export function useFeederStats() {
       { address, abi: FEEDER_ABI, functionName: "pendingDividends" },
       { address, abi: FEEDER_ABI, functionName: "unclaimedTreasury" },
     ],
-    query: { enabled: !!address, refetchInterval: 12000 },
+    query: { enabled: !!address, refetchInterval: 60000 },
   });
 
   const { data: blockNumber } = useBlockNumber({
-    watch: !!address && isConnected,
+    watch: false,
   });
   useEffect(() => {
     if (blockNumber !== undefined) refetch();

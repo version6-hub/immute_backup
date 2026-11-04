@@ -68,8 +68,8 @@ export function ReferralPanel() {
         <span className="font-mono text-ink">
           {truncateAddress(walletAddress)}
         </span>
-        . As of v4.0 the staking minimum is{" "}
-        <span className="font-mono text-ink">1 wei</span> — any non-zero IMT
+        . The current staking minimum is{" "}
+        <span className="font-mono text-ink">one IMT base unit</span> — any non-zero IMT
         balance qualifies. Claim alongside rewards via the Withdraw action
         below.
       </p>

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { isAddress, parseEther, zeroAddress } from "viem";
-import { useReadContract, useChainId } from "wagmi";
+import { isAddress, parseEther, formatUnits, zeroAddress } from "viem";
+import { useReadContract } from "wagmi";
 import { IMMUTE_ABI, getContractAddress } from "../lib/contract";
 import {
   useBuy,
@@ -90,7 +90,7 @@ function useReferrerFromUrl(): `0x${string}` {
 }
 
 function BuyForm() {
-  const chainId = useChainId();
+  const chainId = 1 as const;
   const address = getContractAddress(chainId);
   const [ethStr, setEthStr] = useState("0.01");
   const referrer = useReferrerFromUrl();
@@ -137,7 +137,7 @@ function BuyForm() {
       )}
       <button
         onClick={() => call(referrer, minTokensOut, ethWei).catch(() => {})}
-        disabled={!hasContract || isPending || ethWei === 0n}
+        disabled={!hasContract || isPending || ethWei === 0n || minTokensOut <= 0n}
         className="btn-primary w-full py-3"
       >
         {isPending ? "Waiting for confirmation…" : `Buy ${ethStr || "0"} ETH`}
@@ -149,7 +149,7 @@ function BuyForm() {
 /* ─── Sell ────────────────────────────────────────────────────────── */
 
 function SellForm() {
-  const chainId = useChainId();
+  const chainId = 1 as const;
   const address = getContractAddress(chainId);
   const { tokenBalance } = useWalletStats();
   const [tokenStr, setTokenStr] = useState("");
@@ -169,7 +169,7 @@ function SellForm() {
       : 0n;
 
   const setMax = () => {
-    if (tokenBalance) setTokenStr((Number(tokenBalance) / 1e18).toFixed(6));
+    if (tokenBalance) setTokenStr(formatUnits(tokenBalance, 18));
   };
 
   const overBalance = tokenBalance !== undefined && tokensWei > tokenBalance;
@@ -207,7 +207,7 @@ function SellForm() {
       )}
       <button
         onClick={() => call(tokensWei, minEthOut).catch(() => {})}
-        disabled={!hasContract || isPending || tokensWei === 0n || overBalance}
+        disabled={!hasContract || isPending || tokensWei === 0n || overBalance || minEthOut <= 0n}
         className="btn-primary w-full py-3"
       >
         {isPending ? "Waiting for confirmation…" : "Sell IMT"}
@@ -247,7 +247,7 @@ function WithdrawForm() {
 /* ─── Reinvest ───────────────────────────────────────────────────── */
 
 function ReinvestForm() {
-  const chainId = useChainId();
+  const chainId = 1 as const;
   const address = getContractAddress(chainId);
   const { rewards } = useWalletStats();
   const { call, isPending, hasContract } = useReinvest();
@@ -289,7 +289,7 @@ function ReinvestForm() {
       )}
       <button
         onClick={() => call(minTokensOut).catch(() => {})}
-        disabled={!hasContract || isPending || claimable === 0n}
+        disabled={!hasContract || isPending || claimable === 0n || minTokensOut <= 0n}
         className="btn-primary w-full py-3"
       >
         {isPending ? "Waiting for confirmation…" : "Reinvest rewards"}
@@ -335,7 +335,7 @@ function TransferForm() {
         <Label className="m-0">IMT amount</Label>
         <button
           onClick={() => {
-            if (tokenBalance) setTokenStr((Number(tokenBalance) / 1e18).toFixed(6));
+            if (tokenBalance) setTokenStr(formatUnits(tokenBalance, 18));
           }}
           className="btn-ghost text-[10px]"
         >
