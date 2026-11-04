@@ -38,11 +38,9 @@ export function SiteUpdateGuard() {
         } finally { window.clearTimeout(timeout); }
       },
       hasReloaded: release => {
-        if (new URL(window.location.href).searchParams.get(PARAMETER) === release) return true;
-        try { return window.sessionStorage.getItem("immute-auto-update") === release; } catch { return false; }
+        return new URL(window.location.href).searchParams.get(PARAMETER) === release;
       },
       reload: release => {
-        try { window.sessionStorage.setItem("immute-auto-update", release); } catch {}
         const url = new URL(window.location.href);
         url.searchParams.set(PARAMETER, release);
         window.location.replace(url.href);
